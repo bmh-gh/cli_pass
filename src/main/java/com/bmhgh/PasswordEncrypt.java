@@ -1,4 +1,4 @@
-package com.bmh;
+package com.bmhgh;
 
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;

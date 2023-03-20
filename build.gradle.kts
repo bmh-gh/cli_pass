@@ -2,7 +2,7 @@ plugins {
     id("java")
 }
 
-group = "com.bmh"
+group = "com.bmhgh"
 version = "1.0-SNAPSHOT"
 
 repositories {

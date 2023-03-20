@@ -1,4 +1,4 @@
-package com.bmh;
+package com.bmhgh;
 
 import java.util.Random;
 
