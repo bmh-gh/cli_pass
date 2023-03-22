@@ -1,4 +1,4 @@
-package com.bmhgh;
+package com.github.bmhgh;
 
 import org.junit.jupiter.api.Test;
 
