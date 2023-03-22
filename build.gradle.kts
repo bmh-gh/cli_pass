@@ -12,7 +12,9 @@ repositories {
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
-
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("info.picocli:picocli:4.7.1")
+    annotationProcessor("info.picocli:picocli-codegen:4.7.1")
 }
 
 tasks.getByName<Test>("test") {
