@@ -1,5 +1,6 @@
 package com.github.bmhgh.services;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,9 +12,13 @@ public class StorageService {
             return false;
         }
         try {
-            Files.createFile(path);
-            // Add header information:
-            return false;
+            // Later add header information which do not get encrypted
+            // Add header information here:
+            try (FileWriter writer = new FileWriter(path.toFile())) {
+                String jsonFormat = "[\n\n]";
+                writer.append(jsonFormat);
+            }
+            return true;
         } catch (IOException e) {
             throw new IOException(e);
         }
