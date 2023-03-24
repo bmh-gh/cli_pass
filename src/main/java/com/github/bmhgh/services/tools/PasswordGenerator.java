@@ -1,4 +1,4 @@
-package com.github.bmhgh.services;
+package com.github.bmhgh.services.tools;
 
 import java.util.Random;
 

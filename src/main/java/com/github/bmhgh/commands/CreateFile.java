@@ -10,11 +10,9 @@ import static picocli.CommandLine.*;
 
 @Command(name = "new",
         mixinStandardHelpOptions = true,
-        requiredOptionMarker = '*',
         header = "Create a new storage for passwords",
         optionListHeading = "%nOptions are:%n",
         commandListHeading = "%nSubcommands are:%n",
-        //defaultValueProvider = ,
         description = "This is a simple password manager app for the command line")
 public class CreateFile implements Callable<Integer> {
 
@@ -23,6 +21,7 @@ public class CreateFile implements Callable<Integer> {
 
     @Option(names = {"--path"}, description = "", defaultValue = "")
     private Path path;
+
 
     @Parameters(paramLabel = "<filename>", defaultValue = "passwords")
     private String filename;

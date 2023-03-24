@@ -8,14 +8,14 @@ import java.nio.file.Path;
 public class StorageService {
 
     public static boolean createFile(Path path) throws IOException {
-        if(Files.exists(path)) {
+        if (Files.exists(path)) {
             return false;
         }
         try {
             // Later add header information which do not get encrypted
             // Add header information here:
             try (FileWriter writer = new FileWriter(path.toFile())) {
-                String jsonFormat = "[\n\n]";
+                String jsonFormat = "{ \"passwords\" : [\n\n], }";
                 writer.append(jsonFormat);
             }
             return true;
