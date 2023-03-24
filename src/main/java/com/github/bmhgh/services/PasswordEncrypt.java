@@ -1,4 +1,4 @@
-package com.github.bmhgh;
+package com.github.bmhgh.services;
 
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
@@ -15,7 +15,7 @@ public class PasswordEncrypt {
     // is it safe to do it like this??
     private final SecretKey k;
 
-    PasswordEncrypt(String user_pw) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public PasswordEncrypt(String user_pw) throws NoSuchAlgorithmException, InvalidKeySpecException {
         k = getKeyFromPassword(user_pw);
     }
 

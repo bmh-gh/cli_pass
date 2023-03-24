@@ -1,5 +1,6 @@
 package com.github.bmhgh;
 
+import com.github.bmhgh.services.PasswordGenerator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

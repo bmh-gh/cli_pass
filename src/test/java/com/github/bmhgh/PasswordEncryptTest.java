@@ -1,5 +1,6 @@
 package com.github.bmhgh;
 
+import com.github.bmhgh.services.PasswordEncrypt;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
