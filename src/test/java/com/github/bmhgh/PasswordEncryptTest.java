@@ -1,26 +1,25 @@
 package com.github.bmhgh;
 
-import com.github.bmhgh.services.PasswordEncrypt;
+import com.github.bmhgh.services.tools.EncryptionTool;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 class PasswordEncryptTest {
 
     @Test
-    void encrypt_password() throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    void encrypt_password()
+            throws NoSuchPaddingException, NoSuchAlgorithmException,
+            InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         String pw = "simple_password";
-        String master_pw = "1234qwer";
-        PasswordEncrypt passwordEncrypt = new PasswordEncrypt(master_pw);
-        String cipherText = passwordEncrypt.encrypt_password(pw);
-        String plainText = passwordEncrypt.decrypt_password(cipherText);
+        char[] master_pw = "12345qwerz".toCharArray();
+        String cipherText = EncryptionTool.encryptData(pw, EncryptionTool.getKeyFromPassword(master_pw));
+        String plainText = EncryptionTool.decryptData(cipherText, EncryptionTool.getKeyFromPassword(master_pw));
         Assertions.assertEquals(pw, plainText);
     }
 }
