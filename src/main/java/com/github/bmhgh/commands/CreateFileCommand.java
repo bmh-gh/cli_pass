@@ -13,7 +13,6 @@ import static picocli.CommandLine.*;
         mixinStandardHelpOptions = true,
         header = "Create a new storage for passwords",
         optionListHeading = "%nOptions are:%n",
-        commandListHeading = "%nSubcommands are:%n",
         description = "This is a simple password manager app for the command line")
 public class CreateFileCommand implements Callable<Integer> {
 

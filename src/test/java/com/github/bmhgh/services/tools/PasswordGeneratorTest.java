@@ -1,9 +1,8 @@
-package com.github.bmhgh;
+package com.github.bmhgh.services.tools;
 
-import com.github.bmhgh.services.tools.PasswordGenerator;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 class PasswordGeneratorTest {
