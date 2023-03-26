@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CreateFileTest {
+class CreateFileCommandTest {
     @AfterEach
     void end() throws IOException {
         Files.deleteIfExists(Paths.get("testfile"));

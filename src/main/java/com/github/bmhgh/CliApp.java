@@ -1,6 +1,6 @@
 package com.github.bmhgh;
 
-import com.github.bmhgh.commands.CreateFile;
+import com.github.bmhgh.commands.CreateFileCommand;
 import picocli.CommandLine;
 
 import java.util.concurrent.Callable;
@@ -13,7 +13,7 @@ import java.util.concurrent.Callable;
         optionListHeading = "%nOptions are:%n",
         commandListHeading = "%nSubcommands are:%n",
         subcommands = {
-                CreateFile.class
+                CreateFileCommand.class
                 //add more subcommands later here
         },
         description = "This is a simple password manager app for the command line"

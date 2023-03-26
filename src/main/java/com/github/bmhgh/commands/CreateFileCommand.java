@@ -15,7 +15,7 @@ import static picocli.CommandLine.*;
         optionListHeading = "%nOptions are:%n",
         commandListHeading = "%nSubcommands are:%n",
         description = "This is a simple password manager app for the command line")
-public class CreateFile implements Callable<Integer> {
+public class CreateFileCommand implements Callable<Integer> {
 
     @Option(names = {"-p", "--password"}, description = "", defaultValue = "", interactive = true)
     private char[] password;
