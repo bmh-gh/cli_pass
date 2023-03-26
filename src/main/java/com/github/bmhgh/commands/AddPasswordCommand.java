@@ -8,14 +8,10 @@ import picocli.CommandLine;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.io.*;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
@@ -75,34 +71,25 @@ public class AddPasswordCommand implements Callable<Integer> {
         return 0;
     }
 
-    private void appendEntry(Entry entry, Path path, char[] password) {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             ObjectOutputStream out = new ObjectOutputStream(bos)) {
-            out.writeObject(entry);
-            out.flush();
-            String serializedEntry = Arrays.toString(bos.toByteArray());
-
-            // Encrypt Entry
-            String encryptedEntry = EncryptionTool.encryptData(
-                    serializedEntry,
-                    EncryptionTool.getKeyFromPassword(password)
-            );
-            // Add the Entry to the Json
-            try (FileReader reader = new FileReader(path.toFile())) {
-                JsonObject obj = JsonParser.parseReader(reader)
-                        .getAsJsonObject();
-                reader.close();
-                obj.get("passwords")
-                        .getAsJsonArray()
-                        .add(encryptedEntry);
-                // Write the manipulated Json to the file
-                try (FileWriter writer = new FileWriter(path.toFile())) {
-                    writer.write(obj.toString());
-                }
+    private void appendEntry(Entry entry, Path path, char[] password) throws Exception {
+        String serializedEntry = Entry.serialize(entry);
+        String encryptedEntry = EncryptionTool.encryptData(
+                serializedEntry,
+                EncryptionTool.getKeyFromPassword(password)
+        );
+        try (FileReader reader = new FileReader(path.toFile())) {
+            JsonObject obj = JsonParser.parseReader(reader)
+                    .getAsJsonObject();
+            reader.close();
+            obj.get("passwords")
+                    .getAsJsonArray()
+                    .add(encryptedEntry);
+            // Write the manipulated Json to the file
+            try (FileWriter writer = new FileWriter(path.toFile())) {
+                writer.write(obj.toString());
             }
-        } catch (IOException | IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException |
-                 NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
         }
     }
 }
