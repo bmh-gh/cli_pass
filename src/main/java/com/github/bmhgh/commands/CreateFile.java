@@ -1,6 +1,7 @@
 package com.github.bmhgh.commands;
 
 import com.github.bmhgh.services.StorageService;
+import com.github.bmhgh.services.tools.PasswordHashingTool;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,12 +23,11 @@ public class CreateFile implements Callable<Integer> {
     @Option(names = {"--path"}, description = "", defaultValue = "")
     private Path path;
 
-
     @Parameters(paramLabel = "<filename>", defaultValue = "passwords")
     private String filename;
 
     @Override
-    public Integer call() throws Exception {
+    public Integer call() {
         // Check if path variable is not set -> if not, take current path
         if (path.toString().equals("")) {
             path = Paths.get(".").toAbsolutePath().normalize();
@@ -35,7 +35,7 @@ public class CreateFile implements Callable<Integer> {
         // add the filename to the current path
         path = path.resolve(filename);
         // create a new file. if it already exists, print it to the console.
-        boolean is_created = StorageService.createFile(path);
+        boolean is_created = StorageService.createFile(path, PasswordHashingTool.hashPassword(password));
         if (is_created) {
             System.out.println("File is successfully created");
         }
