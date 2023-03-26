@@ -2,12 +2,9 @@ package com.github.bmhgh;
 
 import com.github.bmhgh.commands.AddPasswordCommand;
 import com.github.bmhgh.commands.CreateFileCommand;
+import com.github.bmhgh.commands.GetPasswordsCommand;
 import picocli.CommandLine;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "clipwm",
@@ -20,6 +17,7 @@ import java.util.concurrent.Callable;
         subcommands = {
                 CreateFileCommand.class,
                 AddPasswordCommand.class,
+                GetPasswordsCommand.class
         },
         description = "This is a simple password manager app for the command line"
 )
