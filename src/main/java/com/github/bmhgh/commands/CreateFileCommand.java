@@ -35,12 +35,6 @@ public class CreateFileCommand implements Callable<Integer> {
         path = path.resolve(filename);
         // create a new file. if it already exists, print it to the console.
         boolean is_created = StorageService.createFile(path, PasswordHashingTool.hashPassword(password));
-        if (is_created) {
-            System.out.println("File is successfully created");
-        }
-        else {
-            System.out.println("The file already exists");
-        }
         return is_created ? 0 : 1; // exit code
     }
 }

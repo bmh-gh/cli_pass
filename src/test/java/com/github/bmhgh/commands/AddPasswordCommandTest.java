@@ -31,14 +31,13 @@ class AddPasswordCommandTest {
     @Test
     void addPassword() throws IOException {
         // Create input to simulate
-        String simulatedInput = "MyTitle\nMyUrl\nMyPassword\nsecretpassword\n";
+        String simulatedInput = "secretpassword\nMyTitle\nMyUrl\nMyPassword\n";
 
         // Set the input stream to a ByteArrayInputStream with the simulated input
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
         String[] args = {"add", "--file=testfile"};
         int exitCode = cli.execute(args);
-
         String content = Files.readString(Paths.get("testfile"));
         assertNotNull(content);
         assertEquals(0, exitCode);
