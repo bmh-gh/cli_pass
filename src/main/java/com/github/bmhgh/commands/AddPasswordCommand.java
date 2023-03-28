@@ -1,7 +1,7 @@
 package com.github.bmhgh.commands;
 
 import com.github.bmhgh.models.Entry;
-import com.github.bmhgh.services.tools.EncryptionTool;
+import com.github.bmhgh.services.EncryptionTool;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import picocli.CommandLine;
