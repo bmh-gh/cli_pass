@@ -1,8 +1,8 @@
-package com.github.bmhgh.services.tools;
+package com.github.bmhgh.services;
 
 import java.util.Random;
 
-public class PasswordGenerator {
+public class PasswordGeneratorTool {
     public static String generate(boolean upper, boolean lower, boolean num, boolean special, short length) {
         StringBuilder sb = new StringBuilder();
         if (upper) {
@@ -44,4 +44,3 @@ public class PasswordGenerator {
         return "!@#$%^&*()-_=+[{]};:,<.>/?\\|`~\"";
     }
 }
-

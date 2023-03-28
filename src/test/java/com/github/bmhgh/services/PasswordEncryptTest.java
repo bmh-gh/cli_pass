@@ -1,5 +1,6 @@
-package com.github.bmhgh.services.tools;
+package com.github.bmhgh.services;
 
+import com.github.bmhgh.services.EncryptionTool;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

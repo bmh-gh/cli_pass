@@ -1,5 +1,6 @@
-package com.github.bmhgh.services.tools;
+package com.github.bmhgh.services;
 
+import com.github.bmhgh.services.PasswordGeneratorTool;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -11,9 +12,9 @@ class PasswordGeneratorTest {
     void generate() {
         // Setup
         short length = (short) 128;
-        String alphabetic_pw = PasswordGenerator.generate(true, true, false, false, length);
-        String non_alphabetic_pw = PasswordGenerator.generate(false, false, true, true, length);
-        String alphanumeric_pw = PasswordGenerator.generate(true, true, true, false, length);
+        String alphabetic_pw = PasswordGeneratorTool.generate(true, true, false, false, length);
+        String non_alphabetic_pw = PasswordGeneratorTool.generate(false, false, true, true, length);
+        String alphanumeric_pw = PasswordGeneratorTool.generate(true, true, true, false, length);
         // Tests
         assertNotEquals(alphabetic_pw, "");
         assertNotEquals(non_alphabetic_pw, "");

@@ -1,7 +1,6 @@
 package com.github.bmhgh.services;
 
 import com.github.bmhgh.CliApp;
-import com.github.bmhgh.services.tools.PasswordHashingTool;
 import com.google.gson.JsonParser;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +35,6 @@ class StorageServiceTest {
         reader.close();
 
         assertEquals(0, exitCode);
-        assert PasswordHashingTool.checkPassword("mypassword".toCharArray(), pwHash);
+        assert PasswordHasher.checkPassword("mypassword".toCharArray(), pwHash);
     }
 }

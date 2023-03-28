@@ -2,6 +2,7 @@ package com.github.bmhgh;
 
 import com.github.bmhgh.commands.AddPasswordCommand;
 import com.github.bmhgh.commands.CreateFileCommand;
+import com.github.bmhgh.commands.DeletePasswordCommand;
 import com.github.bmhgh.commands.GetPasswordsCommand;
 import picocli.CommandLine;
 
@@ -17,7 +18,8 @@ import java.util.concurrent.Callable;
         subcommands = {
                 CreateFileCommand.class,
                 AddPasswordCommand.class,
-                GetPasswordsCommand.class
+                GetPasswordsCommand.class,
+                DeletePasswordCommand.class,
         },
         description = "This is a simple password manager app for the command line"
 )

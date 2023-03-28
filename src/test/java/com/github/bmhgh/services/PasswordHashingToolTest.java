@@ -1,5 +1,6 @@
-package com.github.bmhgh.services.tools;
+package com.github.bmhgh.services;
 
+import com.github.bmhgh.services.PasswordHasher;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,15 +10,15 @@ class PasswordHashingToolTest {
     @Test
     void hashPassword() {
         String password = "1234qwer";
-        String hash = PasswordHashingTool.hashPassword(password.toCharArray());
+        String hash = PasswordHasher.hashPassword(password.toCharArray());
         assertNotEquals(password, hash);
     }
 
     @Test
     void checkPassword() {
         char[] password = "1234qwer".toCharArray();
-        String hash = PasswordHashingTool.hashPassword(password);
+        String hash = PasswordHasher.hashPassword(password);
 
-        assert PasswordHashingTool.checkPassword(password, hash);
+        assert PasswordHasher.checkPassword(password, hash);
     }
 }

@@ -1,8 +1,8 @@
-package com.github.bmhgh.services.tools;
+package com.github.bmhgh.services;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-public class PasswordHashingTool {
+public class PasswordHasher {
     private static final int WORKLOAD = 12; // Number of rounds of hashing to perform
 
     /**

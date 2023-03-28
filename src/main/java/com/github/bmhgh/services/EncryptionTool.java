@@ -1,4 +1,4 @@
-package com.github.bmhgh.services.tools;
+package com.github.bmhgh.services;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -16,8 +16,6 @@ public class EncryptionTool {
         byte[] hash = sha.digest(new String(password).getBytes(StandardCharsets.UTF_8));
         return new SecretKeySpec(hash, "AES");
     }
-
-
     public static String encryptData(String plain, SecretKey k) throws InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchPaddingException, NoSuchAlgorithmException {
         Cipher c = Cipher.getInstance(algorithm);
         c.init(Cipher.ENCRYPT_MODE, k);

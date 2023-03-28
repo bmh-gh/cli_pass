@@ -49,7 +49,6 @@ public class Entry implements Serializable {
             throw new IOException(e);
         }
     }
-
     public static Entry deserialize(String entry) {
         byte[] decodedInput = Base64.getDecoder().decode(entry);
         ByteArrayInputStream bis = new ByteArrayInputStream(decodedInput);
@@ -58,7 +57,7 @@ public class Entry implements Serializable {
             if (o instanceof Entry) {
                 return (Entry) o;
             }
-            throw new Exception("This Entry is not valid");
+            return null;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
