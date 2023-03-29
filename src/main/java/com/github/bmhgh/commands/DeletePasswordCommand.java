@@ -1,10 +1,12 @@
 package com.github.bmhgh.commands;
 
 import com.github.bmhgh.DefaultConfig;
+import com.github.bmhgh.exceptions.FalsePasswordException;
 import com.github.bmhgh.services.Persistence;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -17,7 +19,7 @@ import java.util.concurrent.Callable;
 public class DeletePasswordCommand implements Callable<Integer> {
 
     @Option(names = {"-f", "--files"}, description = "Path to the file")
-    private Path path = DefaultConfig.DEFAULT_FILE_PATH;
+    private final Path path = DefaultConfig.DEFAULT_FILE_PATH;
 
     @Option(names = {"-a", "--all"}, description = "Delete all files with the title")
     boolean all;
@@ -26,7 +28,7 @@ public class DeletePasswordCommand implements Callable<Integer> {
     List<String> titles = new ArrayList<>();
 
     @Override
-    public Integer call() throws Exception {
+    public Integer call() {
 
         char[] password;
         if (System.console() == null) {
@@ -35,10 +37,24 @@ public class DeletePasswordCommand implements Callable<Integer> {
         } else {
             password = System.console().readPassword("Password to access the data storage: ");
         }
-        Persistence persistence = new Persistence(path, password);
+        Persistence persistence;
+        try {
+            persistence = new Persistence(path, password);
+        } catch (IOException e) {
+            System.out.println("Not a compatible file! Please select another one");
+            return 1;
+        } catch(FalsePasswordException e) {
+            System.out.println("The password does not match!");
+            return 2;
+        }
 
         if(all) {
-            persistence.deleteAll(titles);
+            try {
+                persistence.deleteAll(titles);
+            } catch (IOException e) {
+                System.out.println("Could not delete this entry/these entries");
+                return 1;
+            }
         } else {
             // todo(): Maybe not all titles are supposed to be deleted
             System.out.println("cannot do this yet");

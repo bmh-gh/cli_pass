@@ -1,9 +1,8 @@
 package com.github.bmhgh.commands;
 
+import com.github.bmhgh.exceptions.FalsePasswordException;
 import com.github.bmhgh.models.Entry;
-import com.github.bmhgh.services.EncryptionTool;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.github.bmhgh.services.Persistence;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -11,12 +10,11 @@ import picocli.CommandLine.Parameters;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import java.io.*;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 
@@ -45,7 +43,7 @@ public class AddPasswordCommand implements Callable<Integer> {
         }
 
         char[] password;
-
+        // Get user input. If there is no console (like in an IDE) -> use the scanner. Else use the console:
         if (System.console() == null) {
             Scanner scanner = new Scanner(System.in);
             password = scanner.nextLine().toCharArray();
@@ -61,48 +59,33 @@ public class AddPasswordCommand implements Callable<Integer> {
                 entryUrl = System.console().readLine("URL: ");
             }
             if (entryPassword == null) {
-                entryPassword = Arrays.toString(System.console().readPassword("Password: "));
+                entryPassword = new String(System.console().readPassword("Password: "));
             }
+        }
+        // Set up the connection to the data storage and add the entry. If there was a mistake it returns an error code.
+        // Otherwise, it returns 0 (successful)
+        Persistence persistence;
+        try {
+            persistence = new Persistence(path, password);
+        } catch (IOException e) {
+            System.out.println("Not a compatible file! Please select another one");
+            return 1;
+        } catch(FalsePasswordException e) {
+            System.out.println("The password does not match!");
+            return 2;
         }
         Entry newEntry = new Entry(entryTitle, entryUrl, entryPassword);
         try {
-            appendEntry(newEntry, path, password);
-        } catch (Exception e) {
-            // there was an error:
+            persistence.addPassword(newEntry);
+        } catch (IOException e) {
+            System.out.println("Not a compatible file! Please select another one");
             return 1;
+        } catch (NoSuchAlgorithmException | IllegalBlockSizeException | NoSuchPaddingException |
+                BadPaddingException | InvalidKeyException e) {
+            System.out.println("Failure while trying to encrypt the input");
+            return 2;
         }
         // everything went smoothly:
         return 0;
-    }
-
-    private void appendEntry(Entry entry, Path path, char[] password) {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             ObjectOutputStream out = new ObjectOutputStream(bos)) {
-            out.writeObject(entry);
-            out.flush();
-            String serializedEntry = Arrays.toString(bos.toByteArray());
-
-            // Encrypt Entry
-            String encryptedEntry = EncryptionTool.encryptData(
-                    serializedEntry,
-                    EncryptionTool.getKeyFromPassword(password)
-            );
-            // Add the Entry to the Json
-            try (FileReader reader = new FileReader(path.toFile())) {
-                JsonObject obj = JsonParser.parseReader(reader)
-                        .getAsJsonObject();
-                reader.close();
-                obj.get("passwords")
-                        .getAsJsonArray()
-                        .add(encryptedEntry);
-                // Write the manipulated Json to the file
-                try (FileWriter writer = new FileWriter(path.toFile())) {
-                    writer.write(obj.toString());
-                }
-            }
-        } catch (IOException | IllegalBlockSizeException | NoSuchPaddingException | BadPaddingException |
-                 NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

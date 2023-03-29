@@ -1,12 +1,14 @@
 package com.github.bmhgh.commands;
 
 import com.github.bmhgh.DefaultConfig;
+import com.github.bmhgh.exceptions.FalsePasswordException;
 import com.github.bmhgh.models.Entry;
 import com.github.bmhgh.services.Persistence;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +45,16 @@ public class GetPasswordsCommand implements Callable<Integer> {
         Persistence persistence;
         try {
             persistence = new Persistence(path, password);
-        } catch (Exception e) {
-            throw new Exception(e);
+        } catch (IOException e) {
+            System.out.println("Not a compatible file! Please select another one");
+            return 1;
+        } catch(FalsePasswordException e) {
+            System.out.println("The password does not match!");
+            return 2;
         }
         List<Entry> entries = titles.isEmpty() ? persistence.getPasswords() : persistence.filterPasswords(titles);
         entries.forEach(System.out::println);
-        // Error code 1 if there were no passwords
+        // Error code 1 if there were no entries
         return entries.isEmpty() ? 1 : 0;
     }
 }

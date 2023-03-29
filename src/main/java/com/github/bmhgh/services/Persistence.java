@@ -1,5 +1,6 @@
 package com.github.bmhgh.services;
 
+import com.github.bmhgh.exceptions.FalsePasswordException;
 import com.github.bmhgh.models.Entry;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -16,7 +17,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Persistence {
@@ -26,15 +26,15 @@ public class Persistence {
 
     JsonObject fileContent;
 
-    public Persistence(Path path, char[] password) throws Exception {
+    public Persistence(Path path, char[] password) throws IOException, FalsePasswordException {
         this.path = path;
         fileContent = updateFileContent();
         this.password = validatePassword(password);
     }
 
-    private char[] validatePassword(char[] password) throws Exception {
+    private char[] validatePassword(char[] password) throws FalsePasswordException {
         if (!PasswordHasher.checkPassword(password, fileContent.get("verify").getAsString())) {
-            throw new Exception("This password doesn't match!");
+            throw new FalsePasswordException("Passwords doesn't match!");
         }
         return password;
     }

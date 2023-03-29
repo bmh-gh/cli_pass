@@ -37,10 +37,11 @@ public class CreateFileCommand implements Callable<Integer> {
         boolean is_created = StorageService.createFile(path, PasswordHasher.hashPassword(password));
         if (is_created) {
             System.out.println("File is successfully created");
+            return 0;
         }
         else {
             System.out.println("The file already exists");
+            return 1;
         }
-        return is_created ? 0 : 1; // exit code
     }
 }
